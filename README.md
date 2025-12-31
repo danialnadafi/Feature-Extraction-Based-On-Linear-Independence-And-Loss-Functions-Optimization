@@ -3,8 +3,7 @@
 # Feature Engineering under Linear Independence  
 **Stability • Convergence • Optimization-Aware Learning**
 
-**Main Notebook(s):** `CDM_2_Final.ipynb`  
-**Report:** `CDM_2_Final.pdf`
+**Main Notebook:** `CDM_2_Final.ipynb`  
 
 **Datasets:**  
 - Wisconsin Breast Cancer (Classification)  
@@ -13,7 +12,6 @@
 
 **Author:** Danial Nadafi  
 **University:** Amirkabir University of Technology (Tehran Polytechnic)  
-
 **Supervisor:** Dr. Mehdi Ghatee  
 **Teaching Assistant:** Dr. Behnam Yousefimehr  
 
@@ -22,115 +20,112 @@
 ---
 
 ## Prerequisites
-- **Python 3.8+**
-- **pip**
-- **Jupyter Notebook** or **JupyterLab**
+- **Python 3.8+**  
+- **pip** (Python package manager)  
+- **Jupyter Notebook** or **JupyterLab**  
 
 ---
 
 ## Project Overview
-This project investigates **feature extraction and feature selection methods grounded in linear independence** and analyzes their **direct impact on optimization stability, convergence speed, and model performance** in classical machine learning tasks.
+This repository presents an academic-level empirical study on **feature extraction and feature selection methods based on linear independence**, and analyzes their **direct impact on optimization stability, convergence speed, and model performance** across classical machine learning tasks.
 
-Rather than treating feature engineering as a preprocessing afterthought, this work demonstrates that **multicollinearity** fundamentally alters the behavior of:
+The project focuses on how **multicollinearity** affects:
 
 - Analytical solvers  
-- Gradient-based optimizers  
-- Distance-based models  
-- Tree-based ensemble methods  
+- Gradient-based optimization  
+- Distance-based learning  
+- Tree-based ensemble models  
 
-Experiments are conducted on **three canonical datasets**, covering **regression, classification, and clustering** scenarios.
-
----
-
-## Core Research Questions
-- Why does **multicollinearity destabilize regression coefficients and gradient descent**?
-- Can **PCA enforce linear independence** and improve numerical stability?
-- When does **feature selection** outperform feature extraction?
-- Which models are **inherently robust** to collinearity?
-- How does feature engineering affect **runtime, convergence speed, and accuracy**?
+Experiments are conducted on **three standard benchmark datasets**, covering **regression, classification, and clustering**.
 
 ---
 
-## Implemented Feature Engineering Methods
+## Research Objectives
+- Demonstrate how **multicollinearity destabilizes regression coefficients and slows optimization**
+- Show why **PCA enforces linear independence** and improves convergence behavior
+- Compare **feature extraction vs feature selection** strategies
+- Identify which models are **naturally robust** to collinearity
+- Quantify effects on **runtime, stability, and predictive performance**
 
-### Feature Extraction
-- **Principal Component Analysis (PCA)**
-  - Covariance-based
-  - Variance retention: **90%**
-  - Produces **orthogonal, linearly independent features**
+---
 
-### Feature Selection
-- **SelectKBest**
-  - `f_regression` / `f_classif`
-- **Recursive Feature Elimination (RFE)**
-  - Base models: `LinearRegression`, `RandomForest`
+## Implemented Methods
+
+### Feature Engineering
+- **Principal Component Analysis (PCA)**  
+  - Covariance-based  
+  - Variance retention: **90%**  
+  - Produces orthogonal, linearly independent features  
+
+- **SelectKBest**  
+  - `f_regression` / `f_classif`  
+
+- **Recursive Feature Elimination (RFE)**  
+  - Base models: `LinearRegression`, `RandomForest`  
+
 - **Variance Threshold**
 
 ---
 
 ## Learning Algorithms Evaluated
 
-### Regression
-- **LinearRegression** (analytical solution, coefficient stability)
-- **SGDRegressor** (derivative-based optimization)
-
-### Clustering
-- **KMeans**
-  - Evaluation: Inertia, Silhouette Score
-
-### Classification
-- **K-Nearest Neighbors (KNN)** (distance-based)
-- **RandomForest** (tree-based ensemble)
+| Task | Model | Description |
+|----|------|------------|
+| Regression | **LinearRegression** | Analytical solution; sensitive to multicollinearity |
+| Regression | **SGDRegressor** | Gradient-based optimizer; convergence-sensitive |
+| Clustering | **KMeans** | Distance-based clustering (Inertia, Silhouette) |
+| Classification | **KNN** | Distance-based classifier |
+| Classification | **RandomForest** | Tree-based ensemble; robust to collinearity |
 
 ---
 
 ## Experimental Pipeline
 
 ### Phase 1 – Collinearity Diagnostics
-- Covariance matrix computation via `np.cov(X.T)`
+- Covariance matrix computation (`np.cov(X.T)`)
 - Heatmap visualization (`coolwarm`)
-- Severe collinearity detected in:
+- Strong collinearity detected in:
   - Breast Cancer: `radius`, `perimeter`, `area`
   - Boston Housing: `NOX`, `INDUS`
 
 ---
 
 ### Phase 2 – Feature Extraction with PCA
-- Feature standardization using `StandardScaler`
+- Feature standardization (`StandardScaler`)
 - Dimensionality reduction:
   - Breast Cancer: 30 → **7**
   - Boston Housing: 13 → **8**
   - Iris: 4 → **2**
-- Complete elimination of linear dependence
+- Complete removal of linear dependence
 
 ---
 
 ### Phase 3 – Feature Selection
-- Comparison of **PCA vs SelectKBest vs RFE**
-- Evaluation based on:
-  - Performance
+- Compare **PCA vs SelectKBest vs RFE**
+- Evaluate:
+  - Predictive performance
   - Interpretability
-  - Computational efficiency
+  - Computational cost
 
 ---
 
 ### Phase 4 – Optimization Behavior (Regression)
-- Observation of **coefficient explosion** in LinearRegression under collinearity
+- Severe coefficient instability observed in LinearRegression under collinearity
 - PCA results in:
-  - Stable regression coefficients
+  - Stable coefficients
   - Faster convergence
 - **SGD iterations**:
-  - Original features: ~28 iterations
-  - PCA features: ~16 iterations
+  - Original features: ~28
+  - PCA features: ~16
 
 ---
 
 ### Phase 5 – Clustering Performance (Iris)
-- PCA reduces feature space noise
+- PCA reduces noise and dimensionality
 - Results:
-  - Comparable Silhouette scores
-  - **Significantly faster convergence**
-  - Lower Inertia values
+  - Similar Silhouette scores
+  - Faster convergence
+  - Lower Inertia
 
 ---
 
@@ -146,57 +141,28 @@ Experiments are conducted on **three canonical datasets**, covering **regression
 
 ---
 
-## Key Findings
+## Key Results & Insights
 
-### 1. PCA Dramatically Improves Optimization
-- Eliminates multicollinearity
-- Stabilizes coefficients
-- Reduces SGD iterations
-- Accelerates distance-based models
+| Observation | Outcome |
+|------------|---------|
+| PCA vs Original Features | Faster convergence, stable optimization |
+| Feature Selection | Better interpretability, sometimes lower accuracy |
+| Gradient-Based Models | Highly sensitive to collinearity |
+| Tree-Based Models | Naturally robust |
 
-### 2. Feature Selection ≠ Feature Extraction
-- PCA constructs a **new orthogonal feature space**
-- Selection preserves original features
-- Feature selection may discard **weak but informative signals**
-
-### 3. Model Sensitivity to Collinearity
-
-| Model Type | Sensitivity |
-|----------|------------|
-| Linear / SGD | 🔴 High |
-| KNN / KMeans | 🟠 Medium |
-| RandomForest | 🟢 Low |
-
-Tree-based models resist collinearity due to:
-- Random feature subsampling
-- Bagging
-- Non-linear decision boundaries
-
----
-
-## Core Conclusion
-There is **no universally optimal feature engineering strategy**.
-
-- Use **PCA** when:
-  - Data is noisy
-  - Optimization stability is critical
-  - Distance- or gradient-based models are used
-- Use **Feature Selection** when:
-  - Interpretability is required
-  - Tree-based models dominate
-- Prefer **RandomForest** when raw, collinear features are unavoidable
-
-**Linear independence is not a theoretical luxury — it is a practical optimization necessity.**
+**Core Conclusion:**  
+Linear independence is a **practical necessity**, not a theoretical luxury.  
+PCA significantly improves optimization behavior, while tree-based models remain robust even in highly collinear spaces.
 
 ---
 
 ## Ideal For
 - Machine Learning & Data Mining courses  
-- Understanding optimization behavior beyond accuracy  
 - Feature engineering strategy design  
+- Understanding optimization behavior beyond accuracy  
 - Academic and applied ML practitioners  
 
----
+**Star the repo if you find it useful for studying, teaching, or research!**
 
-Happy researching and engineering 🚀  
+Happy learning and engineering 🚀  
 **Danial Nadafi**
